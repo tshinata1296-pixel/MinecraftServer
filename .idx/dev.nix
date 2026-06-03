@@ -5,11 +5,29 @@
     unzip
     openssh
     git
-    qemu_kvm
+    curl
+    wget
+    apt
     sudo
+
+    # Minecraft Java
+    temurin-jre-bin-21
+
+    # Utilities
+    screen
+    tmux
+    htop
+    nano
+
+    # Docker
+    docker
+    docker-compose
+
+    # VM / VPS tools
+    qemu
+    qemu_kvm
     cdrkit
     cloud-utils
-    qemu
   ];
 
   env = {
@@ -23,7 +41,17 @@
     ];
 
     workspace = {
-      onCreate = { };
+      onCreate = {
+        check-java = "java -version";
+
+        install-playit = ''
+          if [ ! -f playit ]; then
+            curl -L https://github.com/playit-cloud/playit-agent/releases/latest/download/playit-linux-amd64 -o playit
+            chmod +x playit
+          fi
+        '';
+      };
+
       onStart = { };
     };
 
